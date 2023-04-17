@@ -6,7 +6,7 @@ import TelegramApi from "node-telegram-bot-api"
 // @access  Private
 const token = '5035718315:AAF68MaBy7EPhIW1l7_22ZnjxSfzyahg6-k'
 //1815070047//
-const bot = new TelegramApi(token, {polling: true})
+// const bot = new TelegramApi(token, {polling: true})
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
@@ -59,7 +59,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 
     let message = `ID Пользователя: ${uuid}\nИмя: ${surname}\nАдрес: ${city} ${street}\nEmail: ${email}\nКомментарий: ${comment}\nТип доставки: ${deliveryType}\nНомер телефона: ${phone}\nОбщая цена: ${totalPrice}`
 
-    await bot.sendMessage('1815070047', message)
+    // await bot.sendMessage('1815070047', message)
 
     res.status(201).json(createdOrder)
   }

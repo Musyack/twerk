@@ -25,7 +25,7 @@ const ProductScreen = ({ history, match }) => {
   const { loading, error, product } = productDetails
   // const newProduct = JSON.parse(JSON.stringify(product))
   // console.log(newProduct)
-  const [currentImage, setCurrentImage] = useState('/images/sample.png')
+  const [currentImage, setCurrentImage] = useState('../images/sample.png')
 
 
   const userLogin = useSelector((state) => state.userLogin)
@@ -256,7 +256,7 @@ const ProductScreen = ({ history, match }) => {
                                         data-headlessui-state="selected"
                                         className="relative h-6 w-6 sm:h-9 sm:w-9 bg-white rounded-3xl flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer"
                                         aria-controls="headlessui-tabs-panel-108"><span className="absolute inset-0"><img
-                                    src={image}
+                                    src={`https://myprivetemessage.ru${image}`}
                                     alt="" className="w-full h-full object-center object-cover rounded-full"/></span><span
                                     className="ring-gray-900 absolute inset-0 rounded-full ring-2 transition duration-300"
                                     aria-hidden="true"></span></button>
@@ -271,7 +271,7 @@ const ProductScreen = ({ history, match }) => {
                               <div id="headlessui-tabs-panel-108" role="tabpanel" tabIndex="0" data-headlessui-state="selected"
                                    aria-labelledby="headlessui-tabs-tab-99">
                                 <img
-                                  src={currentImage}
+                                  src={`https://myprivetemessage.ru${currentImage}`}
                                   alt={'www'}
                                   className="w-full h-full object-center object-cover rounded-3xl"/></div>
                           ) : <Loader/>
@@ -292,7 +292,7 @@ const ProductScreen = ({ history, match }) => {
                         <p className="text-sm pt-4">{product.description}</p>
                       </div>
                       <div className="py-2">
-                        <h3 className="py-2 text-sm font-medium text-gray-800"> Харестеристики </h3>
+                        <h3 className="py-2 text-sm font-medium text-gray-800">Характеристики</h3>
                         <div className="text-base text-gray-600 space-y-1.5">
                           {product.chars ? product.chars.map(item => {
                             return (

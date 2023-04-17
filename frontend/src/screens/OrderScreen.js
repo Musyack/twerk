@@ -35,11 +35,14 @@ const OrderScreen = ({ match, history }) => {
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
+  const [test, setTest] = useState(0)
 
 
   const uuid = localStorage.getItem('uuid')
-  const orderDetails = useSelector((state) => state.orderDetails)
+  // dispatch(getOrderDetails(uuid))
+  let orderDetails = useSelector((state) => state.orderDetails)
   const { order, loading, error } = orderDetails
+
 
   useEffect(() => {
 
@@ -47,10 +50,14 @@ const OrderScreen = ({ match, history }) => {
 
 
 
+     // orderDetails = useSelector((state) => state.orderDetails)
+    setTimeout(() => {
+      dispatch(getOrderDetails(uuid))
+    }, 1000)
 
-    dispatch(getOrderDetails(uuid))
     console.log(order)
   }, [dispatch, orderId, successPay, successDeliver])
+
 
 
   console.log(orderDetails)
@@ -88,7 +95,7 @@ const OrderScreen = ({ match, history }) => {
             <section aria-labelledby="order-heading" className="bg-gray-50 px-4 py-6 sm:px-6 lg:hidden rounded-3xl">
               <div data-headlessui-state="" className="max-w-lg mx-auto">
                 <div className="flex items-center justify-between">
-                  <h2 id="order-heading" className="text-md font-medium text-gray-900"> Итого: ${order[0].itemsPrice} ₽ </h2>
+                  <h2 id="order-heading" className="text-md font-medium text-gray-900"> Итого: ${order[0] ? order[0].itemsPrice : <Loader/>} ₽ </h2>
                   <button id="headlessui-disclosure-button-3" type="button" aria-expanded="false"
                           data-headlessui-state="" className="font-medium text-md text-gray-700 hover:text-gray-500"><span>Показать товары</span></button>
                 </div>
@@ -98,12 +105,12 @@ const OrderScreen = ({ match, history }) => {
             <div style={{paddingLeft: "5%"}} className="mt-10 lg:mt-0 hidden w-full max-w-lg flex-col lg:flex">
               <div className="mt-4 bg-white border border-gray-200 rounded-3xl shadow-sm">
                 <ul role="list" className="divide-y divide-gray-200">
-                  {order[0].orderItems.map(item => {
+                  {order[0] ? order[0].orderItems.map(item => {
                     return (
                         <li className="flex py-6 px-4 sm:px-6">
                           <div className="flex-shrink-0">
                             <img
-                                src={item.images[0]}
+                                src={`https://myprivetemessage.ru${item.images[0]}`}
                                 className="w-56 rounded-xl"
                             />
                           </div>
@@ -122,12 +129,12 @@ const OrderScreen = ({ match, history }) => {
                           </div>
                         </li>
                     )
-                  })}
+                  }): <Loader/>}
                 </ul>
                 <dl className="border-t border-gray-200 py-6 px-4 space-y-6 sm:px-6">
                   <div className="flex items-center justify-between">
                     <dt className="text-sm">Всего</dt>
-                    <dd className="text-sm font-medium text-gray-900">{order[0].totalPrice} ₽</dd>
+                    <dd className="text-sm font-medium text-gray-900">{order[0] ? order[0].totalPrice: <Loader/>} ₽</dd>
                   </div>
                   <div className="flex items-center justify-between">
                     <dt className="text-sm">Доставка</dt>
@@ -136,7 +143,7 @@ const OrderScreen = ({ match, history }) => {
                   </div>
                   <div className="flex items-center justify-between pt-4">
                     <dt className="text-base font-medium">К оплате</dt>
-                    <dd className="text-base font-medium text-gray-900">{order[0].totalPrice} ₽</dd>
+                    <dd className="text-base font-medium text-gray-900">{order[0] ? order[0].totalPrice: <Loader/>} ₽</dd>
                   </div>
                 </dl>
               </div>
@@ -144,7 +151,7 @@ const OrderScreen = ({ match, history }) => {
             <section aria-labelledby="payment-heading" className="flex-auto overflow-y-auto px-1 py-4 sm:py-0">
               <div className="max-w-xl">
                 <div className="max-w-2xl">
-                  <p className="mt-2 text-gray-800 text-xl sm:text-4xl font-bold tracking-tight"> Ваш заказ {order[0]._id}</p>
+                  <p className="mt-2 text-gray-800 text-xl sm:text-4xl font-bold tracking-tight"> Ваш заказ {order[0] ? order[0]._id: <Loader/>}</p>
                   <p className="mt-4 text-sm sm:text-base text-gray-500"> С вами свяжется менеджер для уточнения деталей
                     доставки. </p>
                 </div>
@@ -153,13 +160,13 @@ const OrderScreen = ({ match, history }) => {
                     <div>
                       <dt className="font-medium text-gray-900">Адрес доставки</dt>
                       <dd className="text-sm mt-3 text-gray-500 space-y-3"><span
-                          className="block">Адрес доставки: {order.city} {order.street}</span><span
-                          className="block">Метод доставки: {order.deliveryType}</span></dd>
+                          className="block">Адрес доставки: {order[0] ? order[0].city : <Loader/>} {order[0] ? order[0].street : <Loader/>}</span><span
+                          className="block">Метод доставки: {order[0] ? order[0].deliveryType : <Loader/>}</span></dd>
                     </div>
                     <div>
                       <dt className="font-medium text-gray-900">Данные получателя</dt>
-                      <dd className="text-sm mt-3 text-gray-500 space-y-3"><span className="block">Имя и Фамилия: {order.surname}</span><span
-                          className="block">Номер телефона: вывывы</span></dd>
+                      <dd className="text-sm mt-3 text-gray-500 space-y-3"><span className="block">Имя и Фамилия: {order[0] ? order[0].surname : <Loader/>}</span><span
+                          className="block">Номер телефона: {order[0] ? order[0].phone : <Loader/>}</span></dd>
                     </div>
                   </dl>
                   <p className="font-medium text-gray-900 mt-6 md:mt-10"> Заказ ожидает подтверждения </p>

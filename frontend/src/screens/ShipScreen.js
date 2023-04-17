@@ -16,23 +16,29 @@ const ShipScreen = () => {
                     </div>
                     <div
                         className="grid grid-cols-1 mx-auto my-4 sm:my-12 md:grid-cols-2 md:gap-x-16 gap-y-6 md:gap-y-12">
-                        <div><p className="text-lg font-medium text-gray-800 sm:text-xl"> Какие способы оплаты
-                            возможны? </p><p
-                            className="mt-1 text-xs font-normal text-gray-600 sm:mt-2 sm:text-sm"> Оплату заказа в
-                            Интернет-магазине принимаем банковскими картами систем Visa (включая Electron), MasterCard,
-                            Maestro, МИР. </p></div>
+                        <div><p className="text-lg font-medium text-gray-800 sm:text-xl"> Как и каким образом производится оплата заказа?
+                        </p><p
+                            className="mt-1 text-xs font-normal text-gray-600 sm:mt-2 sm:text-sm"> Оплата заказа производится напрямую на сайте выбранного при заказе маркетплейса. Денежные средства за Ваш заказ мы получаем по истечению 14 дней с момента получения Вами товара в пункте выдачи заказов маркетплейса.
+
+                            На самих маркетплейсах доступны все виды электронной оплаты банковской картой. </p></div>
                         <div><p className="text-lg font-medium text-gray-800 sm:text-xl"> Какие способы доставки
                             возможны? </p><p
-                            className="mt-1 text-xs font-normal text-gray-600 sm:mt-2 sm:text-sm"> Доставка заказов
-                            осуществляется в пункты выдачи наших партнёров<br/> Ozon, Yandex, Wildberries</p></div>
+                            className="mt-1 text-xs font-normal text-gray-600 sm:mt-2 sm:text-sm"> Доставка Ваших заказов осуществляется через наших партнёров - крупнейшие маркетплейсы OZON, Yandex Market.</p></div>
                         <div><p className="text-lg font-medium text-gray-800 sm:text-xl"> Когда будет отправлен мой
-                            заказ? </p><p className="mt-1 text-xs font-normal text-gray-600 sm:mt-2 sm:text-sm"> Срок
-                            обработки и отправки заказа, как правило, составляет от одного до двух дней, не считая дня
-                            поступления заказа. </p></div>
+                            заказ? </p><p className="mt-1 text-xs font-normal text-gray-600 sm:mt-2 sm:text-sm"> Ваш заказ будет отправлен в течение 2-х дней с момента оформления и подтверждения заказа.
+
+                            Сроки доставки товара по всей России - от 2-х до 7 дней.
+
+                            Срок доставки зависит от региона проживания покупателя.</p></div>
                         <div><p className="text-lg font-medium text-gray-800 sm:text-xl"> Как отследить свой заказ? </p>
-                            <p className="mt-1 text-xs font-normal text-gray-600 sm:mt-2 sm:text-sm"> После фактической
-                                отправки заказа мы отправим вам уведомления в виде SMS с указанием трекинг-номера. </p>
+                            <p className="mt-1 text-xs font-normal text-gray-600 sm:mt-2 sm:text-sm">После отправки Вашего товара со склада маркетплейса, Вы получите уведомление и заказ будет отображаться в Вашем личном кабинете. </p>
                         </div>
+                        <div><p className="text-lg font-medium text-gray-800 sm:text-xl"> Гарантия на товар?
+                        </p><p
+                            className="mt-1 text-xs font-normal text-gray-600 sm:mt-2 sm:text-sm"> На весь перечень продукции, представленной в нашем интернет магазине, предоставляется гарантия от 12 до 36 месяцев, в зависимости от производителя.
+
+                            В рамках гарантийного срока Вы можете связаться с менеджером и вернуть товар или обменять его на новый.</p></div>
+
                     </div>
                 </div>
             </section>

@@ -59,7 +59,7 @@ const ProductEditScreen = ({ match, history }) => {
     error: errorUpdate,
     success: successUpdate,
   } = productUpdate
-  const [category, setCategory] = useState(categoryList.categories[0])
+  const [category, setCategory] = useState('')
   useEffect(() => {
     dispatch(getCategories())
 
@@ -94,7 +94,7 @@ const ProductEditScreen = ({ match, history }) => {
         },
       }
 
-      const { data } = await axios.post('/api/upload', formData, config)
+      const { data } = await axios.post('https://myprivetemessage.ru/api/upload', formData, config)
 
       setImage(data)
       setUploading(false)
@@ -223,6 +223,7 @@ const ProductEditScreen = ({ match, history }) => {
             </Form.Group>
 
             <select onChange={(e) => setCategory(e.target.value)}>
+              <option selected value={''}>{'Выберите категорию'}</option>
               {categoryList.categories.map((item) => {
 
                 return <option value={item.name}>{item.name}</option>

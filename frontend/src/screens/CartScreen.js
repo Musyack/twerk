@@ -16,7 +16,6 @@ const CartScreen = ({ match, location, history }) => {
   const qty = location.search ? Number(location.search.split('=')[1]) : 1
 
   const dispatch = useDispatch()
-
   const cart = useSelector((state) => state.cart)
   const { cartItems } = cart
   console.log(cart)
@@ -27,7 +26,7 @@ const CartScreen = ({ match, location, history }) => {
   const [comment, setComment] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
-  const [deliveryType, setDeliveryType] = useState('')
+  const [deliveryType, setDeliveryType] = useState('Ozon')
   const unique = uuidv4()
   localStorage.setItem('uuid', unique)
   useEffect(() => {
@@ -195,7 +194,7 @@ const CartScreen = ({ match, location, history }) => {
                          return (
                              <li className="flex py-6 px-4 sm:px-6">
                                <div className="flex-shrink-0"><img
-                                   src={item.images[0]}
+                                   src={`https://myprivetemessage.ru${item.images[0]}`}
                                    className="w-56 rounded-xl"/></div>
                                <div className="ml-6 flex-1 flex flex-col">
                                  <div className="flex">
@@ -243,7 +242,7 @@ const CartScreen = ({ match, location, history }) => {
                 </div>
                 <section aria-labelledby="payment-heading" className="flex-auto overflow-y-auto px-1 py-4 sm:py-0">
                   <div className="max-w-xl">
-                    <form >
+                    <form onSubmit={placeOrderHandler}>
                       <div className="bg-white space-y-5">
                         <h3 className="text-lg font-medium text-gray-900"> Информация для доставки </h3>
                         <h4 className="text-md font-normal text-stone-800"> Адрес доставки </h4>
@@ -264,7 +263,7 @@ const CartScreen = ({ match, location, history }) => {
                                    className="transition duration-200 block w-full border border-stone-200 rounded-xl p-3.5 focus:outline-none focus:border-amber-300 focus:ring-amber-300 text-sm"/>
                           </div>
                           <div className="col-span-2 sm:col-span-1">
-                            <input type="tel" placeholder="Номер телефона" value={phone} onChange={(e) => setPhone(e.target.value)}
+                            <input type="number" placeholder="Номер телефона" value={phone} onChange={(e) => setPhone(e.target.value)}
                                    className="transition duration-200 block w-full border border-stone-200 rounded-xl p-3.5 focus:outline-none focus:border-amber-300 focus:ring-amber-300 text-sm"
                                    minLength="9" maxLength="14" required=""/>
                           </div>
@@ -272,7 +271,7 @@ const CartScreen = ({ match, location, history }) => {
                         <h4 className="text-md font-normal text-stone-800"> Необязательные данные </h4>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="col-span-2 sm:col-span-1">
-                            <input type="text" placeholder="Ваш email" value={email} onChange={(e) => setEmail(e.target.value)}
+                            <input type="email" placeholder="Ваш email" value={email} onChange={(e) => setEmail(e.target.value)}
                                    className="transition duration-200 block w-full border border-stone-200 rounded-xl p-3.5 focus:outline-none focus:border-amber-300 focus:ring-amber-300 text-sm"/>
                           </div>
                           <div className="col-span-2 sm:col-span-1">
@@ -289,7 +288,8 @@ const CartScreen = ({ match, location, history }) => {
                           <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4" role="none">
 
                             <div onClick={() => setDeliveryType('Ozon')}
-                                className="relative bg-white border rounded-xl shadow-sm p-4 flex cursor-pointer focus:outline-none transition duration-200"
+                                 style={deliveryType === "Ozon" ? {border: '1px solid rgb(156 163 175)'}: {borderColor: 'black'}}
+                                className="relative rounded-xl shadow-sm p-4 flex cursor-pointer focus:outline-none transition duration-200"
                                 id="headlessui-radiogroup-option-10" role="radio" aria-checked="false" tabIndex="-1"
                                 data-headlessui-state="" aria-labelledby="headlessui-label-11"
                                 aria-describedby="headlessui-description-12">
@@ -302,7 +302,9 @@ const CartScreen = ({ match, location, history }) => {
                               </div>
                             </div>
                             <div onClick={() => setDeliveryType('Yandex')}
-                                className="relative bg-white border rounded-xl shadow-sm p-4 flex cursor-pointer focus:outline-none transition duration-200"
+                                 style={deliveryType === "Yandex" ? {border: '1px solid rgb(156 163 175)'}: {borderColor: 'black'}}
+                                className="relative rounded-xl shadow-sm p-4 flex cursor-pointer focus:outline-none transition duration-200"
+
                                 id="headlessui-radiogroup-option-13" role="radio" aria-checked="false" tabIndex="-1"
                                 data-headlessui-state="" aria-labelledby="headlessui-label-14"
                                 aria-describedby="headlessui-description-15">
@@ -317,9 +319,11 @@ const CartScreen = ({ match, location, history }) => {
                           </div>
                         </div>
                       </div>
-                      <button onClick={placeOrderHandler}
+                      <button
+                              type={'submit'}
                           className="my-8 sm:my-12 w-full bg-gray-800 border border-transparent rounded-full shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-gray-900"> Подтвердить
                         заказ
+
                       </button>
                     </form>
                     <div className="col-span-2 p-5 border rounded-xl">

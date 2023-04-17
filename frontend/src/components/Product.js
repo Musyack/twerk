@@ -33,7 +33,7 @@ const Product = ({ product }) => {
 
       <div className="relative group">
         <div className="rounded-3xl transition-all duration-300 group-hover:opacity-75"><img
-            src={product.images[0]}
+            src={`https://myprivetemessage.ru${product.images[0]}`}
             className="h-full w-full rounded-3xl"/></div>
         <div className="absolute left-3 top-12">
           <p className="sm:px-3 sm:py-1.5 px-2 py-1 text-xs font-bold tracking-wide text-gray-900 uppercase bg-white rounded-full inline-flex">{product.offer} </p>
