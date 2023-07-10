@@ -21,13 +21,15 @@ import OrderListScreen from './screens/OrderListScreen'
 import CatalogScreen from "./screens/CatalogScreen";
 import ShipScreen from "./screens/ShipScreen";
 import BackScreen from "./screens/BackScreen";
+import CallScreen from "./screens/CallScreen";
+import StatusScreen from "./screens/StatusScreen";
+import ErrorScreen from "./screens/ErrorScreen";
 
 const App = () => {
   return (
     <Router>
       <Header />
       <main className='py-3'>
-        <Container>
           <Route path='/order/:id' component={OrderScreen} />
           <Route path={'/ship'}  component={ShipScreen}/>
           <Route path='/shipping' component={ShippingScreen} />
@@ -63,7 +65,9 @@ const App = () => {
           />
           <Route path={'/catalog'} component={CatalogScreen}/>
           <Route path='/' component={HomeScreen} exact />
-        </Container>
+          <Route path={'/call'} component={CallScreen}/>
+          <Route path={'/status'} component={StatusScreen}/>
+          <Route path={'/error'} component={ErrorScreen}/>
       </main>
       <Footer />
     </Router>

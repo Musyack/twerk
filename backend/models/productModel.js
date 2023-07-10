@@ -52,6 +52,15 @@ const productSchema = mongoose.Schema(
       required: true,
       ref: 'Category'
     },
+      percent: {
+        type: String,
+          required: false
+      },
+      size: {
+        type: String,
+        required: true,
+
+      },
     description: {
       type: String,
       required: true,

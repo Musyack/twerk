@@ -39,7 +39,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.post(`https://myprivetemessage.ru/api/orders`, order, config)
+    const { data } = await axios.post(`http://localhost:5001/api/orders`, order, config)
 
     dispatch({
       type: ORDER_CREATE_SUCCESS,
@@ -81,7 +81,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
     //   },
     // }
 
-    const { data } = await axios.get(`https://myprivetemessage.ru/api/orders/${id}`)
+    const { data } = await axios.get(`http://localhost:5001/api/orders/${id}`)
 
     dispatch({
       type: ORDER_DETAILS_SUCCESS,
@@ -123,7 +123,7 @@ export const payOrder = (orderId, paymentResult) => async (
     }
 
     const { data } = await axios.put(
-      `https://myprivetemessage.ru/api/orders/${orderId}/pay`,
+      `http://localhost:5001/api/orders/${orderId}/pay`,
       paymentResult,
       config
     )
@@ -164,7 +164,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
     }
 
     const { data } = await axios.put(
-      `https://myprivetemessage.ru/api/orders/${order._id}/deliver`,
+      `http://localhost:5001/api/orders/${order._id}/deliver`,
       {},
       config
     )
@@ -204,7 +204,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`https://myprivetemessage.ru/api/orders/myorders`, config)
+    const { data } = await axios.get(`http://localhost:5001/api/orders/myorders`, config)
 
     dispatch({
       type: ORDER_LIST_MY_SUCCESS,
@@ -241,7 +241,7 @@ export const listOrders = () => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`https://myprivetemessage.ru/api/orders`, config)
+    const { data } = await axios.get(`http://localhost:5001/api/orders`, config)
 
     dispatch({
       type: ORDER_LIST_SUCCESS,

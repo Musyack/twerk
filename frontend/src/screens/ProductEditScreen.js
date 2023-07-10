@@ -18,6 +18,8 @@ const ProductEditScreen = ({ match, history }) => {
 
   const [brand, setBrand] = useState('')
   const [imagesArr, setImagesArr] = useState([])
+  const [percent, setPercent] = useState('')
+  const [size, setSize] = useState('')
 
   const onImages = (elem) => {
     let copy = Object.assign([], imagesArr)
@@ -94,7 +96,7 @@ const ProductEditScreen = ({ match, history }) => {
         },
       }
 
-      const { data } = await axios.post('https://myprivetemessage.ru/api/upload', formData, config)
+      const { data } = await axios.post('http://localhost:5001/api/upload', formData, config)
 
       setImage(data)
       setUploading(false)
@@ -118,7 +120,9 @@ const ProductEditScreen = ({ match, history }) => {
         description,
         countInStock,
         offer,
-        chars
+        chars,
+        percent,
+        size
 
 
       })
@@ -181,6 +185,14 @@ const ProductEditScreen = ({ match, history }) => {
                         onChange={uploadFileHandler}
                     ></Form.File>
                     {uploading && <Loader />}
+                    <Col>
+                      {imagesArr ? imagesArr.map(item => {
+
+                        return (
+                            <img style={{width: '100px'}} src={`http://localhost:5001${item}`}/>
+                        )
+                      }): <div></div>}
+                    </Col>
                   </Form.Group>
 
             <Form.Group controlId='chars'>
@@ -197,9 +209,28 @@ const ProductEditScreen = ({ match, history }) => {
                   Добавить
                 </Button>
               </Col>
-              {<h1 style={{color: 'green'}}>{successChar}</h1>}
+              <Col>
+                <ol>
+                  {chars ? chars.map(item => {
+                    return (
+                        <li>
+                          <p>
+                            {item.key}
+                          </p>
+                          <p>
+                            {item.value}
+                          </p>
+                        </li>
+                    )
+                  }): <div>
+
+                  </div>}
+
+                </ol>
+              </Col>
             </Row>
           </Form.Group>
+
 
 
             <Form.Group controlId='brand'>
@@ -235,15 +266,30 @@ const ProductEditScreen = ({ match, history }) => {
               <option value={'Хит Продаж'}>Хит Продаж</option>
               <option value={'Скидка'}>Скидка</option>
             </select>
+            <Form.Group controlId='description'>
+              <Form.Label>Процент скидки</Form.Label>
+              <textarea
+                  placeholder='Процент при скидке'
+                  value={percent}
+                  onChange={(e) => setPercent(e.target.value)}
+              ></textarea>
+            </Form.Group>
+            <Form.Group controlId='description'>
+              <Form.Label> Размер</Form.Label>
+              <textarea
+                  placeholder='Размер'
+                  value={size}
+                  onChange={(e) => setSize(e.target.value)}
+              ></textarea>
+            </Form.Group>
 
             <Form.Group controlId='description'>
               <Form.Label>Описание</Form.Label>
-              <Form.Control
-                type='text'
+              <textarea
                 placeholder='Описание'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-              ></Form.Control>
+              ></textarea>
             </Form.Group>
 
             <Button type='submit' variant='primary'>

@@ -11,11 +11,13 @@ import {
   createProductReview,
 } from '../actions/productActions'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
+import {Modal} from "@mui/material";
 
 const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
+  const [open1, setOpen1] = useState(false)
 
 
 
@@ -49,7 +51,9 @@ const ProductScreen = ({ history, match }) => {
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
 
     }
+
   }, [dispatch, match, successProductReview])
+  console.log(product.description)
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`)
@@ -78,6 +82,42 @@ const ProductScreen = ({ history, match }) => {
 
   return (
     <>
+      <Modal
+          open={open1}
+          onClose={() => setOpen1(false)}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+
+      >
+        <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div id="headlessui-dialog-panel-148" data-headlessui-state="open"
+               className="w-full max-w-md transform overflow-hidden rounded-3xl bg-white p-6 py-5 text-left align-middle shadow-xl transition-all">
+            <h3 id="headlessui-dialog-title-149" data-headlessui-state="open"
+                className="text-lg font-medium leading-6 text-gray-900 pb-2 relative"> Товар добавлен в корзину <button
+                className="absolute top-0 right-0" onClick={() => setOpen1(false)} tabIndex="0">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1"
+                   stroke="currentColor" className="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button></h3>
+            <div className="overflow-y-auto">
+              <li className="flex py-6 space-x-6"><img src={`https://jerfegetd.xyz${currentImage}`}
+                                                       className="flex-none w-36 sm:w-48 rounded-xl bg-gray-200 rounded-3xl"/>
+                <div className="flex flex-col justify-between space-y-4">
+                  <div className="text-xs sm:text-sm font-medium space-y-1">
+                    <h3 className="text-gray-900">{product.name}</h3>
+                    <p className="text-gray-600 pt-1 hidden sm:block"> В наличии на складе </p>
+                    <p className="text-gray-600 pt-8"> Скидка: -20% </p>
+                    <p className="text-gray-900 pt-1"> Стоимость: {product.price} ₽ </p>
+                  </div>
+                </div>
+              </li>
+              <a onClick={addToCartHandler}
+                 className="mb-4 w-full inline-flex items-center justify-center my-2 px-6 py-3 font-medium text-base text-gray-800 transition-all duration-200 border border-gray-200 rounded-full shadow hover:shadow-lg"
+                 title="" >Перейти в корзину</a></div>
+          </div>
+        </div>
+      </Modal>
       {/*<Link className='btn btn-light my-3' to='/'>*/}
       {/*  Назад*/}
       {/*</Link>*/}
@@ -239,9 +279,7 @@ const ProductScreen = ({ history, match }) => {
       {loading ? (<Loader/>) :
           (
               <section className="py-4 sm:py-8">
-                <Link className='btn btn-light my-3' to='/'>
-                  Назад
-                </Link>
+
                 <div className="px-4 mx-auto max-w-7xl sm:px-8">
                   <div className="lg:grid lg:grid-cols-5 lg:gap-x-8 lg:items-start">
 
@@ -256,9 +294,9 @@ const ProductScreen = ({ history, match }) => {
                                         data-headlessui-state="selected"
                                         className="relative h-6 w-6 sm:h-9 sm:w-9 bg-white rounded-3xl flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer"
                                         aria-controls="headlessui-tabs-panel-108"><span className="absolute inset-0"><img
-                                    src={`https://myprivetemessage.ru${image}`}
+                                    src={`${image}`}
                                     alt="" className="w-full h-full object-center object-cover rounded-full"/></span><span
-                                    className="ring-gray-900 absolute inset-0 rounded-full ring-2 transition duration-300"
+                                    className={image === currentImage ? "ring-gray-900 absolute inset-0 rounded-full ring-2 transition duration-300" : "ring-gray-50 absolute inset-0 rounded-full ring-2 transition duration-300"}
                                     aria-hidden="true"></span></button>
                             )
                           }) : <Loader/>}
@@ -271,7 +309,7 @@ const ProductScreen = ({ history, match }) => {
                               <div id="headlessui-tabs-panel-108" role="tabpanel" tabIndex="0" data-headlessui-state="selected"
                                    aria-labelledby="headlessui-tabs-tab-99">
                                 <img
-                                  src={`https://myprivetemessage.ru${currentImage}`}
+                                  src={`https://jerfegetd.xyz${currentImage}`}
                                   alt={'www'}
                                   className="w-full h-full object-center object-cover rounded-3xl"/></div>
                           ) : <Loader/>
@@ -281,7 +319,7 @@ const ProductScreen = ({ history, match }) => {
                     </div>
                     <div className="px-2 col-span-2">
                       <div className="flex justify-between py-3">
-                        <h1 className="text-xl font-medium text-gray-900">{product.name}</h1>
+                        <p className="text-xl font-medium text-gray-900">{product.name}</p>
                         <p className="text-xl font-medium text-gray-900">{product.price} ₽ </p>
                       </div>
                       <div className="py-2">
@@ -289,7 +327,7 @@ const ProductScreen = ({ history, match }) => {
                         <div className="text-base text-gray-600 space-y-1.5">
                           <p className="text-xs sm:text-sm"></p>
                         </div>
-                        <p className="text-sm pt-4">{product.description}</p>
+                        <p style={{whiteSpace: 'pre-line'}} className="text-sm pt-4">{product.description}</p>
                       </div>
                       <div className="py-2">
                         <h3 className="py-2 text-sm font-medium text-gray-800">Характеристики</h3>
@@ -308,7 +346,7 @@ const ProductScreen = ({ history, match }) => {
                       </div>
 
                       <div className="py-9">
-                        <button onClick={addToCartHandler}
+                        <button onClick={() => setOpen1(true)}
                                 disabled={product.countInStock === 0}
                                 className="w-full flex items-center transition duration-300 justify-center bg-gray-800 text-gray-50 rounded-2xl py-3">
                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"

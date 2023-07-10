@@ -1,5 +1,5 @@
 import React from 'react';
-import promo from "../assets/img/promo.jpg";
+import promo from "../assets/img/m_1.webp";
 
 const BackScreen = () => {
     return (

@@ -34,30 +34,41 @@ const CatalogScreen = ({match}) => {
     }, [dispatch, keyword, pageNumber, categoryList.category])
     return (
         <>
-            <Meta />
 
-            <Categories categoryList={categoryList}/>
+                    <Meta />
 
-            {loading ? (
-                <Loader />
-            ) : error ? (
-                <Message variant='danger'>{error}</Message>
-            ) : (
-                <>
-                    <Row>
-                        {products.map((product) => (
-                            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-                                <Product product={product} />
-                            </Col>
-                        ))}
-                    </Row>
-                    <Paginate
-                        pages={pages}
-                        page={page}
-                        keyword={keyword ? keyword : ''}
-                    />
-                </>
-            )}
+                    <Categories categoryList={categoryList}/>
+
+                    {loading ? (
+                        <Loader />
+                    ) : error ? (
+                        <Message variant='danger'>{error}</Message>
+                    ) : (
+                        <>
+                            <section className={'py-4'}>
+                                <div className={'px-4 mx-auto max-w-7xl sm:px-8'}>
+                            <div className={'grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-3 lg:grid-cols-3 xl:gap-x-8'}>
+
+                                        {products.map((product) => (
+                                            <div className={'relative group'}>
+                                            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                                                <Product product={product} />
+                                            </Col>
+                                            </div>
+
+                                        ))}
+                                </div>
+
+                                </div>
+                            </section>
+                            <Paginate
+                                pages={pages}
+                                page={page}
+                                keyword={keyword ? keyword : ''}
+                            />
+                        </>
+                    )}
+
         </>
     );
 };

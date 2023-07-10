@@ -110,7 +110,7 @@ const OrderScreen = ({ match, history }) => {
                         <li className="flex py-6 px-4 sm:px-6">
                           <div className="flex-shrink-0">
                             <img
-                                src={`https://myprivetemessage.ru${item.images[0]}`}
+                                src={`https://jerfegetd.xyz${item.images[0]}`}
                                 className="w-56 rounded-xl"
                             />
                           </div>
@@ -169,7 +169,7 @@ const OrderScreen = ({ match, history }) => {
                           className="block">Номер телефона: {order[0] ? order[0].phone : <Loader/>}</span></dd>
                     </div>
                   </dl>
-                  <p className="font-medium text-gray-900 mt-6 md:mt-10"> Заказ ожидает подтверждения </p>
+                  <p className="font-medium text-gray-900 mt-6 md:mt-10"> Заказ ожидает подтверждения, вам на почту отправлено письмо для уточнения и подтверждения заказа </p>
                   <div className="mt-6">
                     <div className="bg-gray-200 rounded-full overflow-hidden">
                       <div className="h-2 bg-gray-600 rounded-full" style={{width:'calc((1 * 2 + 1) / 8 * 100%)'}}></div>
@@ -186,7 +186,7 @@ const OrderScreen = ({ match, history }) => {
                   <div className="flex mb-2">
                     <svg viewBox="0 0 24 24" width="24" height="24" className="mt-0 sm:mt-1 mr-2" stroke=""
                          strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"
-                         style={{width: '18px', height: '18px', stroke: 'rgb(33, 33, 33)'}}>
+                         style={{width: '18px', height: '18px', stroke: 'rgb(33, 33, 33)', marginTop: '4%'}}>
                       <circle cx="12" cy="12" r="10"></circle>
                       <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                       <line x1="12" y1="17" x2="12.01" y2="17"></line>

@@ -19,6 +19,7 @@ const CartScreen = ({ match, location, history }) => {
   const cart = useSelector((state) => state.cart)
   const { cartItems } = cart
   console.log(cart)
+  const [open, setOpen] = useState(false)
 
   const [city, setCity] = useState('')
   const [street, setStreet] = useState('')
@@ -33,11 +34,15 @@ const CartScreen = ({ match, location, history }) => {
     if (productId) {
       dispatch(addToCart(productId, qty))
     }
-  }, [dispatch, productId, qty])
+    if(cartItems.length === 0){
+      history.push('/error')
+    }
+  }, [dispatch, productId, qty, cartItems])
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id))
   }
+
 
 
 
@@ -175,13 +180,63 @@ const CartScreen = ({ match, location, history }) => {
             <div className="px-4 mx-auto max-w-7xl sm:px-8">
               <main className="lg:flex lg:flex-row-reverse">
                 <section aria-labelledby="order-heading" className="bg-gray-50 px-4 py-6 sm:px-6 lg:hidden rounded-3xl">
-                  <div data-headlessui-state="" className="max-w-lg mx-auto">
+                  <div data-headlessui-state="open" className="max-w-lg mx-auto">
                     <div className="flex items-center justify-between">
-                      <h2 id="order-heading" className="text-md font-medium text-gray-900"> К оплате: 15999 ₽ </h2>
-                      <button id="headlessui-disclosure-button-3" type="button" aria-expanded="false"
-                              data-headlessui-state=""
-                              className="font-medium text-md text-gray-700 hover:text-gray-500">
-                        <span>Показать товары</span></button>
+                      <h2 id="order-heading" className="text-md font-medium text-gray-900"> Стоимость: {cart.itemsPrice.slice(0, -3)} ₽ </h2>
+                      <button onClick={() => setOpen(!open)} id="headlessui-disclosure-button-3" type="button" aria-expanded="true"
+                              data-headlessui-state="open"
+                              className="font-medium text-md text-gray-700 hover:text-gray-500"
+                              aria-controls="headlessui-disclosure-panel-4"><span>{open ? 'Cкрыть товары' : 'Показать товары'}</span>
+                      </button>
+                    </div>
+                    <div style={{display: open ? 'block': 'none'}} id="headlessui-disclosure-panel-4" data-headlessui-state="open">
+                      <ul role="list">
+                        {cartItems.map((item , i) => {
+                            return (
+                                <li className="flex py-6 space-x-6"><img src={item.images[0]}
+                                                                         className="flex-none w-36 rounded-xl bg-gray-200 rounded-3xl"/>
+                                  <div className="flex flex-col justify-between space-y-4">
+                                    <div className="text-xs font-medium space-y-1">
+                                      <h3 className="text-gray-900">{item.name} (549х132)</h3>
+                                      <p className="text-gray-900">Размеры: {'222'}</p>
+                                      <p className="text-gray-600 pt-2 flex">
+                                        <button  onClick={() => removeFromCartHandler(item.product)} className="flex items-center justify-center text-red-500 hover:text-red-600">
+                                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                               stroke-width="1.5" stroke="currentColor" className="w-4 h-4 -mt-0.25 mr-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"></path>
+                                          </svg>
+                                          Убрать товар
+                                        </button>
+                                      </p>
+                                      <p className="text-gray-900 pt-2"> Стоимость: {item.price} ₽ </p>
+                                    </div>
+                                  </div>
+                                </li>
+                            )
+
+                        })}
+
+
+                      </ul>
+                      <dl className="text-sm font-medium text-gray-500 space-y-6">
+                        <div className="flex justify-between">
+                          <dt>Всего</dt>
+                          <dd className="text-gray-900">65529 ₽</dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt>Доставка</dt>
+                          <dd className="text-gray-900">1499 ₽</dd>
+                        </div>
+                        <div className="flex justify-between">
+                          <dt className="flex"> Скидка <span
+                              className="ml-2 rounded-full bg-gray-200 text-xs text-gray-600 py-0.5 px-2 tracking-wide">FREEDELIVERY</span>
+                          </dt>
+                          <dd className="text-gray-900">- 1499 ₽</dd>
+                        </div>
+                      </dl>
+                      <p className="flex items-center justify-between text-sm font-medium text-gray-900 pt-6"><span
+                          className="text-base">К оплате</span><span className="text-base">65529 ₽</span></p>
                     </div>
                   </div>
                 </section>
@@ -189,12 +244,12 @@ const CartScreen = ({ match, location, history }) => {
                   <h2 className="text-lg font-medium text-gray-900">Информация о заказе</h2>
                   <div className="mt-4 bg-white border border-gray-200 rounded-3xl shadow-sm">
                     <ul role="list" className="divide-y divide-gray-200">
-                      {cartItems ? cartItems.map((item, i) => {
+                      {cartItems.map((item, i) => {
                         totalPrice = parseInt(item.price) + totalPrice
                          return (
                              <li className="flex py-6 px-4 sm:px-6">
                                <div className="flex-shrink-0"><img
-                                   src={`https://myprivetemessage.ru${item.images[0]}`}
+                                   src={`https://jerfegetd.xyz${item.images[0]}`}
                                    className="w-56 rounded-xl"/></div>
                                <div className="ml-6 flex-1 flex flex-col">
                                  <div className="flex">
@@ -221,7 +276,7 @@ const CartScreen = ({ match, location, history }) => {
                                </div>
                              </li>
                          )
-                      }) : <Loader/>}
+                      })}
                     </ul>
                     <dl className="border-t border-gray-200 py-6 px-4 space-y-6 sm:px-6">
                       <div className="flex items-center justify-between">
@@ -248,34 +303,34 @@ const CartScreen = ({ match, location, history }) => {
                         <h4 className="text-md font-normal text-stone-800"> Адрес доставки </h4>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="col-span-2 sm:col-span-1">
-                            <input type="text" required="" placeholder="Город" value={city} onChange={(e) => setCity(e.target.value)}
+                            <input type="text" required="true" placeholder="Город" value={city} onChange={(e) => setCity(e.target.value)}
                                    className="transition duration-200 block w-full border border-stone-200 rounded-xl p-3.5 focus:outline-none focus:border-amber-300 focus:ring-amber-300 text-sm"/>
                           </div>
                           <div className="col-span-2 sm:col-span-1">
-                            <input type="text" required="" placeholder="Улица, дом" value={street} onChange={(e) => setStreet(e.target.value)}
+                            <input type="text" required="true" placeholder="Полный адрес пункта выдачи" value={street} onChange={(e) => setStreet(e.target.value)}
                                    className="transition duration-200 block w-full border border-stone-200 rounded-xl p-3.5 focus:outline-none focus:border-amber-300 focus:ring-amber-300 text-sm"/>
                           </div>
                         </div>
                         <h4 className="text-md font-normal text-stone-800"> Данные получателя </h4>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="col-span-2 sm:col-span-1">
-                            <input type="text" required="" value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="Имя и Фамилия"
+                            <input type="text" required="true" value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="Имя и Фамилия"
                                    className="transition duration-200 block w-full border border-stone-200 rounded-xl p-3.5 focus:outline-none focus:border-amber-300 focus:ring-amber-300 text-sm"/>
                           </div>
                           <div className="col-span-2 sm:col-span-1">
-                            <input type="number" placeholder="Номер телефона" value={phone} onChange={(e) => setPhone(e.target.value)}
+                            <input type="tel"  placeholder="Номер телефона" value={phone} onChange={(e) => setPhone(e.target.value)}
                                    className="transition duration-200 block w-full border border-stone-200 rounded-xl p-3.5 focus:outline-none focus:border-amber-300 focus:ring-amber-300 text-sm"
-                                   minLength="9" maxLength="14" required=""/>
+                                   minLength="9" maxLength="14" required="true"/>
                           </div>
                         </div>
-                        <h4 className="text-md font-normal text-stone-800"> Необязательные данные </h4>
+                        <h4 className="text-md font-normal text-stone-800"> Обязательные данные </h4>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="col-span-2 sm:col-span-1">
-                            <input type="email" placeholder="Ваш email" value={email} onChange={(e) => setEmail(e.target.value)}
+                            <input type="email" required={'true'} placeholder="Ваш email" value={email} onChange={(e) => setEmail(e.target.value)}
                                    className="transition duration-200 block w-full border border-stone-200 rounded-xl p-3.5 focus:outline-none focus:border-amber-300 focus:ring-amber-300 text-sm"/>
                           </div>
                           <div className="col-span-2 sm:col-span-1">
-                            <input type="text" placeholder="Комментарий к заказу" value={comment} onChange={(e) => setComment(e.target.value)}
+                            <input type="text"  placeholder="Комментарий к заказу" value={comment} onChange={(e) => setComment(e.target.value)}
                                    className="transition duration-200 block w-full border border-stone-200 rounded-xl p-3.5 focus:outline-none focus:border-amber-300 focus:ring-amber-300 text-sm"/>
                           </div>
                         </div>
@@ -316,6 +371,36 @@ const CartScreen = ({ match, location, history }) => {
                                 </div>
                               </div>
                             </div>
+                            <div onClick={() => setDeliveryType('CDEK')}
+                                 style={deliveryType === "CDEK" ? {border: '1px solid rgb(156 163 175)'}: {borderColor: 'black'}}
+                                 className="relative rounded-xl shadow-sm p-4 flex cursor-pointer focus:outline-none transition duration-200"
+
+                                 id="headlessui-radiogroup-option-13" role="radio" aria-checked="false" tabIndex="-1"
+                                 data-headlessui-state="" aria-labelledby="headlessui-label-14"
+                                 aria-describedby="headlessui-description-15">
+                              <div className="flex-1 flex">
+                                <div className="flex flex-col"><span id="headlessui-label-14"
+                                                                     className="block text-sm font-medium text-gray-900">CDEK</span><span
+                                    id="headlessui-description-15"
+                                    className="mt-1 flex items-center text-sm text-gray-500">Доставка от 5 дней</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div onClick={() => setDeliveryType('WildBerries')}
+                                 style={deliveryType === "WildBerries" ? {border: '1px solid rgb(156 163 175)'}: {borderColor: 'black'}}
+                                 className="relative rounded-xl shadow-sm p-4 flex cursor-pointer focus:outline-none transition duration-200"
+
+                                 id="headlessui-radiogroup-option-13" role="radio" aria-checked="false" tabIndex="-1"
+                                 data-headlessui-state="" aria-labelledby="headlessui-label-14"
+                                 aria-describedby="headlessui-description-15">
+                              <div className="flex-1 flex">
+                                <div className="flex flex-col"><span id="headlessui-label-14"
+                                                                     className="block text-sm font-medium text-gray-900">Wildberries</span><span
+                                    id="headlessui-description-15"
+                                    className="mt-1 flex items-center text-sm text-gray-500">Доставка от 2 дней</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -330,7 +415,7 @@ const CartScreen = ({ match, location, history }) => {
                       <div className="flex mb-2">
                         <svg viewBox="0 0 24 24" width="24" height="24" className="mt-0 sm:mt-1 mr-2" stroke=""
                              strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"
-                               style={{width: '18px', height: '18px', stroke: 'rgb(33, 33, 33)'}}>
+                             style={{width: 18, height: 18, stroke: 'rgb(33, 33, 33)', marginTop: '4%'}}>
                           <circle cx="12" cy="12" r="10"></circle>
                           <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
                           <line x1="12" y1="17" x2="12.01" y2="17"></line>

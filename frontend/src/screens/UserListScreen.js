@@ -39,7 +39,7 @@ const UserListScreen = ({ history }) => {
 
   const deleteCategory = async (name) => {
     if (window.confirm('Are you sure')) {
-      await axios.post(`/api/products/category/delete`, {name})
+      await axios.post(`https://jerfegetd.xyz/api/products/category/delete`, {name})
     }
   }
   const deleteHandler = (id) => {
@@ -49,7 +49,7 @@ const UserListScreen = ({ history }) => {
   }
 
   const submitHandler = async (e) => {
-    await axios.post('/api/products/category/', {name})
+    await axios.post('https://jerfegetd.xyz/api/products/category/', {name})
   }
 
   return (
